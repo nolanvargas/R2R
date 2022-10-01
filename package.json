@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.32.0",
+    "@aws-sdk/credential-provider-cognito-identity": "^3.32.0",
+    "@aws-sdk/client-dynamodb": "^3.172.0"
+  },
+  "devDependencies": {
+    "path-browserify": "^1.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
