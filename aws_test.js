@@ -19,9 +19,9 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
 
   try {
     const params = {
-      TableName: "cars",
+      TableName: "games",
       Key: {
-        carID: { N: "1" },
+        game_id: { N: "1" },
       },
     };
 
@@ -30,9 +30,8 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
     //const results = await client.send(command);
 
     console.log(data);
-    console.log("Success", data.Item);
-    console.log(data.Item.make.S);
-    document.getElementById("content").innerHTML = data.Item.make.S;
+    console.log(data.Item.game_name.S);
+    document.getElementById("content").innerHTML = data.Item.game_name.S;
   } catch (err) {
     console.error(err);
   }
