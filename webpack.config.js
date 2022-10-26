@@ -2,11 +2,11 @@
 var path = require("path");
 module.exports = {
   // Specify the entry point for our app.
-  entry: [path.join(__dirname, "aws_test.js")],
+  entry: [path.join(__dirname, "js/app.js")],
   // Specify the output file containing our bundled code.
   output: {
     path: __dirname,
-    filename: "aws_test_browser.js",
+    filename: "js/app_browser.js",
   },
   // Enable WebPack to use the 'path' package.
   resolve: {
@@ -22,4 +22,7 @@ module.exports = {
     rules: [{test: /\.json$/, use: use: "json-loader"}]
   }
   **/
+ experiments: {
+  topLevelAwait: true
+ }
 };

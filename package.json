@@ -1,4 +1,5 @@
 {
+  "name": "Rank to rank",
   "scripts": {
     "build": "webpack"
   },
