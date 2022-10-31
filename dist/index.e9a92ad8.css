@@ -1,0 +1,105 @@
+@import "https://fonts.googleapis.com/css2?family=Bungee&display=swap";
+:root {
+  --title: "Bungee", cursive;
+}
+
+@keyframes color-change {
+  0% {
+    color: #a50000;
+  }
+
+  10% {
+    color: #ff4500;
+  }
+
+  20% {
+    color: orange;
+  }
+
+  30% {
+    color: green;
+  }
+
+  40% {
+    color: teal;
+  }
+
+  50% {
+    color: #0049b8;
+  }
+
+  60% {
+    color: indigo;
+  }
+
+  70% {
+    color: purple;
+  }
+
+  80% {
+    color: #3d0066;
+  }
+
+  90% {
+    color: #000;
+  }
+
+  100% {
+    color: #a50101;
+  }
+}
+
+body {
+  min-width: 320px;
+  background-color: #f0f8ff;
+  margin: 0;
+}
+
+.title {
+  font-family: var(--title);
+  text-align: center;
+  font-size: 40px;
+  animation: 15s infinite color-change;
+}
+
+@media screen and (min-width: 500px) {
+  h1 {
+    font-size: 35px;
+  }
+
+  #gameSelect {
+    grid-template-rows: repeat(3, 170px);
+    grid-template-columns: repeat(3, 170px);
+    display: grid;
+  }
+
+  .gameTile {
+    width: auto;
+    border: 2px solid #000;
+  }
+
+  .gameTile > button > h3 {
+    font-family: var(--title);
+    color: #000;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 14px;
+    position: relative;
+    bottom: 50px;
+  }
+
+  .gameTile > button {
+    height: 100%;
+    width: 100%;
+    border: none;
+    padding: 0;
+  }
+
+  .gameTile > button > img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=index.e9a92ad8.css.map */

@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+
+:root {
+  --title: "Bungee", cursive;
+}
+
+@keyframes color-change {
+  0% {
+    color: rgb(165, 0, 0);
+  }
+  10% {
+    color: orangered;
+  }
+  20% {
+    color: orange;
+  }
+  30% {
+    color: green;
+  }
+  40% {
+    color: teal;
+  }
+  50% {
+    color: rgb(0, 73, 184);
+  }
+  60% {
+    color: indigo;
+  }
+  70% {
+    color: purple;
+  }
+  80% {
+    color: #3d0066;
+  }
+  90% {
+    color: black;
+  }
+  100% {
+    color: rgb(165, 1, 1);
+  }
+}
+
+body {
+  background-color: aliceblue;
+  min-width: 320px;
+  margin: 0;
+}
+
+.title {
+  font-family: var(--title);
+  text-align: center;
+  font-size: 40px;
+  animation: color-change 15s infinite;
+}
+
+@media screen and (min-width: 500px) {
+  h1 {
+    font-size: 35px;
+  }
+
+  #gameSelect {
+    display: grid;
+    grid-template-columns: repeat(3, 170px);
+    grid-template-rows: repeat(3, 170px);
+  }
+
+  .gameTile {
+    width: auto;
+    border: 2px solid black;
+  }
+
+  .gameTile > button > h3 {
+    position: relative;
+    bottom: 50px;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: var(--title);
+    line-height: 14px;
+    color: black;
+  }
+
+  .gameTile > button {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  .gameTile > button > img {
+    height: 100%;
+    width: 100%;
+  }
+}
