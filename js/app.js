@@ -24,6 +24,11 @@ function removeSelectedClass(gameTiles) {
   });
 }
 
+function reloadRanks() {
+  document.querySelector("#rankSelect").innerHTML = "";
+  //set skeleton screen
+}
+
 async function main() {
   let gamesList = await createGamesList();
   let games = await getGames();
@@ -48,6 +53,7 @@ async function main() {
   children.forEach((item) => {
     item.addEventListener("click", () => {
       removeSelectedClass(children);
+      reloadRanks();
       item.classList.add("selected");
       generateRanksHTML(item.id);
     });
