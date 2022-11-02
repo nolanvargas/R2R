@@ -6,7 +6,7 @@ Rank to Rank is a web application for comparing ranks between video games. This 
 
 {Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running (starting the server and navigating through the web pages) and a walkthrough of the code.}
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/Id_XeKhoxS4)
 
 # Web Pages
 
