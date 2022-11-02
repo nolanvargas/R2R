@@ -18,15 +18,21 @@ async function createGamesList() {
   return gamesList;
 }
 
+function removeSelectedClass(gameTiles) {
+  gameTiles.forEach((gameTile) => {
+    gameTile.classList.remove("selected");
+  });
+}
+
 async function main() {
   let gamesList = await createGamesList();
   let games = await getGames();
   games = games.Items;
   let gameSelect = document.querySelector("#gameSelect");
-  let buttons = [];
+  let gameTiles = [];
 
   games.forEach((game) => {
-    buttons.push(
+    gameTiles.push(
       generateGameSelectHTML(
         game.game.S,
         `/game_icons/${game.img.S}`,
@@ -34,14 +40,16 @@ async function main() {
       )
     );
   });
-  gameSelect.innerHTML = buttons.join("");
+  gameSelect.innerHTML = gameTiles.join("");
 
   NodeList.prototype.forEach = Array.prototype.forEach;
   var children = gameSelect.childNodes;
+  console.log(children);
   children.forEach((item) => {
-    let button = item.querySelector(".gameSelectButton");
-    button.addEventListener("click", () => {
-      generateRanksHTML(button.name);
+    item.addEventListener("click", () => {
+      removeSelectedClass(children);
+      item.classList.add("selected");
+      generateRanksHTML(item.id);
     });
   });
 }
