@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
 
-:root {
-  --title: "Bungee", cursive;
-}
-
 @keyframes color-change {
   0% {
     color: rgb(165, 0, 0);
@@ -40,55 +36,113 @@
   }
 }
 
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-text {
+  margin-top: 70%;
+  margin-left: 15%;
+  width: 20vw;
+  height: 1rem;
+  margin-bottom: 0.25rem;
+  border-radius: 0.125rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 90%);
+  }
+}
+:root {
+  --title: "Bungee", cursive;
+}
+
+.gameTile svg {
+}
+
 body {
-  background-color: aliceblue;
+  background-color: #5a5a5a;
   min-width: 320px;
   margin: 0;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 .title {
   font-family: var(--title);
   text-align: center;
   font-size: 40px;
-  animation: color-change 15s infinite;
+  color: white;
+  text-shadow: -3px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-@media screen and (min-width: 500px) {
-  h1 {
-    font-size: 35px;
-  }
+h1 {
+  font-size: 35px;
+}
 
-  #gameSelect {
-    display: grid;
-    grid-template-columns: repeat(3, 170px);
-    grid-template-rows: repeat(3, 170px);
-  }
+#content {
+  width: 100%;
+}
 
-  .gameTile {
-    width: auto;
-    border: 2px solid black;
-  }
+#gameSelect {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 28.5vw);
+  gap: 2vw;
+  width: 100%;
+}
 
-  .gameTile > button > h3 {
-    position: relative;
-    bottom: 50px;
-    margin: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-family: var(--title);
-    line-height: 14px;
-    color: black;
-  }
+.gameTile > h3 {
+  font-size: 12px;
+  position: relative;
+  bottom: 50px;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: var(--title);
+  line-height: 14px;
+  color: white;
+  font-weight: 100;
+  text-align: center;
+}
 
-  .gameTile > button {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    border: none;
-  }
+.gameTile {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
 
-  .gameTile > button > img {
-    height: 100%;
-    width: 100%;
-  }
+  /* fancy border stuff */
+  --clr: rgb(156, 17, 255);
+  --outline: 2px solid rgb(255, 255, 255);
+  color: var(--clr);
+  border: var(--outline);
+  outline-offset: -2px;
+  transition: outline-width 150ms ease, outline-offset 150ms ease;
+  border-radius: 13px;
+}
+
+.gameTile:hover,
+.gameTile:focus,
+.selected {
+  outline: var(--outline);
+  outline-width: 8px;
+  outline-offset: -8px;
+}
+
+.gameTile > img {
+  height: 100%;
+  width: 100%;
+}
+
+#rankSelect {
+  display: grid;
+}
+.rankTile {
+  display: flex;
 }
