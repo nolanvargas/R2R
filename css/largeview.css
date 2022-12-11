@@ -1,0 +1,13 @@
+@media only screen and (min-width: 425px) {
+  #gameSelect,
+  #rankSelect {
+    gap: 2vw;
+  }
+  #rankSelect {
+    margin-left: 1.5vw;
+  }
+  #submitButton {
+    position: relative;
+    left: 27px;
+  }
+}

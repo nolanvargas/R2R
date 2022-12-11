@@ -535,13 +535,20 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _awsJs = require("./aws.js");
 var _awsJsDefault = parcelHelpers.interopDefault(_awsJs);
-var _gameSelectJs = require("./gameSelect.js");
 var _rankSelectJs = require("./rankSelect.js");
+var _calculationsJs = require("./calculations.js");
+var _resultsJs = require("./results.js");
 let db = new (0, _awsJsDefault.default)();
+// Returns the contents of the games table
 async function getGames() {
     const games = await db.getTableContents("games");
     return games;
 }
+// Generate game tile HTML
+function generateGameSelectHTML(name, imgLink, id) {
+    return `<div class='gameTile' id="${id}" class="gameSelectButton"><img src=${imgLink}><h3>${name}</h3></div>`;
+}
+// Returns an array of games (not display names)
 async function createGamesList() {
     const games = await getGames();
     gamesList = new Array();
@@ -550,28 +557,128 @@ async function createGamesList() {
     });
     return gamesList;
 }
+// Goes through each game tile and removes 'selected' class
+function removeSelectedClass(gameTiles) {
+    gameTiles.forEach((gameTile)=>{
+        gameTile.classList.remove("selected");
+    });
+}
+// Deletes all rank html and TODO load skeleton
+function reloadRanks() {
+    document.querySelector("#rankSelect").innerHTML = "";
+//set skeleton screen
+}
+function switchToResults() {
+    document.querySelector("#content").innerHTML = '<div id="selectedRankIconPH" class="skeleton"></div><div id="selectedRankTextPH" class="skeleton-text skeleton"></div><div id="eqRanksPHParent"><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div><div id="eqRanksIconPH" class="skeleton"></div></div>';
+}
+function deployResults(resultsHTML1) {
+    document.querySelector("#content").innerHTML = resultsHTML1;
+}
+async function retrieveGameData(game) {
+    let db = new (0, _awsJsDefault.default)();
+    let gameData = await db.getTableContents(game.id.S);
+    return gameData;
+}
+async function getAllData(games) {
+    let data = {};
+    for (const game of games){
+        let gameData = await retrieveGameData(game);
+        let gameName = game.id.S;
+        data[gameName] = gameData;
+    }
+    return data;
+}
+function showResults(resultsHTML1) {
+    console.log("yay we are here");
+}
+/**
+ * Adds click listeners to each rank tile
+ *
+ * @param {Element} rankSelect Pass in the element that holds the rank tiles
+ */ function addRankEventListeners(rankSelect) {
+    let ranks = rankSelect.childNodes;
+    ranks.forEach((rank)=>{
+        rank.addEventListener("click", async (e)=>{
+            // Happens when a rank tile is clicked
+            selectedRank = rank.id;
+            removeSelectedClass(ranks);
+            // New ranks, so one cant already be selected
+            sessionStorage.setItem("isRankSelected", false);
+            rank.classList.add("selected");
+            console.log("I selected " + selectedRank);
+            sessionStorage.setItem("selectedRank", selectedRank);
+            // Enable submit button
+            document.querySelector("#submitButton").classList.add("enabled");
+        });
+    });
+}
 async function main() {
-    let gamesList1 = await createGamesList();
+    // SESSION VARIABLES
+    sessionStorage.clear();
+    sessionStorage.setItem("isGameSelected", false);
+    sessionStorage.setItem("isRankSelected", false);
+    sessionStorage.setItem("selectedGame", "");
+    sessionStorage.setItem("selectedRank", "");
+    // List of game ids
     let games = await getGames();
     games = games.Items;
+    // Both sections of the first view
     let gameSelect = document.querySelector("#gameSelect");
-    let buttons = [];
+    let rankSelect = document.querySelector("#rankSelect");
+    let gameTiles = [];
+    // Create each game tile
     games.forEach((game)=>{
-        buttons.push((0, _gameSelectJs.generateGameSelectHTML)(game.game.S, `/game_icons/${game.img.S}`, game.id.S));
+        gameTiles.push(generateGameSelectHTML(game.game.S, `/game_icons/${game.img.S}`, game.id.S));
     });
-    gameSelect.innerHTML = buttons.join("");
+    // Load HTML into the DOM
+    gameSelect.innerHTML = gameTiles.join("");
+    // Arrays foreach is what we want
     NodeList.prototype.forEach = Array.prototype.forEach;
-    var children = gameSelect.childNodes;
+    let children = gameSelect.childNodes;
     children.forEach((item)=>{
-        let button = item.querySelector(".gameSelectButton");
-        button.addEventListener("click", ()=>{
-            (0, _rankSelectJs.generateRanksHTML)(button.name);
+        item.addEventListener("click", async (e)=>{
+            // Any game may have been already selected, so we need to run through each
+            removeSelectedClass(children);
+            // Disable the submit button
+            document.querySelector("#submitButton").classList.replace("enabled", "disabled");
+            // Set the session to have the selected game
+            sessionStorage.setItem("selectedGame", item.id);
+            sessionStorage.setItem("isGameSelected", true);
+            // Clear rankSelect and populate with skeleton
+            reloadRanks();
+            item.classList.add("selected");
+            // Build the HTML for the ranks
+            let rankHTML = await (0, _rankSelectJs.generateRanksHTML)(item.id);
+            // Insert the HTML into the DOM
+            rankSelect.innerHTML = rankHTML.join("");
+            // Now we wait until a rank is selected, or a new game is selected
+            // (which will run this function (lambda?) again)
+            addRankEventListeners(rankSelect);
         });
+    });
+    let submitButton = document.querySelector("#submitButton");
+    submitButton.addEventListener("click", async (e)=>{
+        if (sessionStorage.getItem("isRankSelected") && sessionStorage.getItem("isRankSelected")) {
+            // Switch to results skeleton
+            switchToResults();
+            // Grab every game id in the database
+            let games = await getGames();
+            // Use this to grab all the data for each game
+            // This uses a lot of resources but is necessary because
+            // each rank percentile equivalent needs to be calculated
+            const data = await getAllData(games["Items"]);
+            // Grab the HTML for the results
+            const eqRanks = (0, _calculationsJs.computeEquivalentRanks)(data);
+            // Put the results in the session storage
+            sessionStorage.setItem("results", eqRanks);
+            resultsHTML = (0, _resultsJs.resultsHTML)(eqRanks, data);
+            deployResults((0, _resultsJs.resultsHTML));
+        }
     });
 }
 main();
 
-},{"./aws.js":"bxWuF","./gameSelect.js":"4GYQ5","./rankSelect.js":"gB3Ml","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bxWuF":[function(require,module,exports) {
+},{"./aws.js":"bxWuF","./rankSelect.js":"gB3Ml","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./calculations.js":"EIpTr","./results.js":"lzTRh"}],"bxWuF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _clientCognitoIdentity = require("@aws-sdk/client-cognito-identity");
@@ -29210,34 +29317,128 @@ class InMemoryStorage {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4GYQ5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateGameSelectHTML", ()=>generateGameSelectHTML);
-function generateGameSelectHTML(name, imgLink, id) {
-    return `<div class='gameTile'><button name="${id}" class="gameSelectButton"><img src=${imgLink}><h3>${name}</h3></button></div>`;
-}
-
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gB3Ml":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateRanksHTML", ()=>generateRanksHTML);
+/**
+ * Returns a list of HTML div elements based on the game provided.
+ * It will automatically access the database for the data
+ *
+ * @param {string} game The id for the game
+ *
+ * @return {array} Returns a list of HTML div elements for each rank
+ */ parcelHelpers.export(exports, "generateRanksHTML", ()=>generateRanksHTML);
 var _awsJs = require("./aws.js");
 var _awsJsDefault = parcelHelpers.interopDefault(_awsJs);
 async function generateRanksHTML(game) {
+    // DB connection
     let db = new (0, _awsJsDefault.default)();
-    let rankSelect = document.querySelector("#rankSelect");
+    // Grab rank data from the db using the specified game
     let rankData = await db.getTableContents(game);
     rankData = rankData.Items;
-    console.log(typeof rankData);
-    let rankHTML = "";
+    // Sort the ranks
+    rankData = rankData.sort((a, b)=>parseInt(a.position.S) > parseInt(b.position.S) ? 1 : -1);
+    // This will produce basically the same html structure for
+    // each rank tile, and will store each in a list.
+    let rankHTML = [];
     rankData.forEach((item)=>{
-        let rankTile = `<div class='rankTile'><button class="gameSelectButton"><img src="#"><h3>${item.rank.S}</h3></button></div>`;
-        rankHTML += rankTile;
+        rankHTML.push(`<div class='rankTile' id=${item.position.S} style="background-image:url(/rank_icons/${item.img.S});"><h3>${item.displayName.S}</h3></button></div>`);
     });
-    rankSelect.innerHTML = rankHTML;
+    return rankHTML;
 }
 
-},{"./aws.js":"bxWuF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["dAPrZ","5AKj5"], "5AKj5", "parcelRequirecb96")
+},{"./aws.js":"bxWuF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"EIpTr":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// ********************************
+// This file will handle the calculations
+// ********************************
+/**
+ * Calculates the equivalent ranks for the selected game and rank
+ * @param {Object} data The key value pairs for each game, key being the game id,
+ * and the value being the list of data for each rank
+ * @return {Object} Returns key value pairs with key being game id, and value being
+ * the equivalent rank
+ */ parcelHelpers.export(exports, "computeEquivalentRanks", ()=>computeEquivalentRanks);
+function computeEquivalentRanks(data) {
+    // This will be the percent of player that are below the skill level at selected rank
+    let rankPercentile = 0;
+    // sg -> selected game -> each rank of the selected game
+    let sg = data[sessionStorage.getItem("selectedGame")]["Items"];
+    //Total population for our selected game
+    let selectedGamePopulation = 0;
+    //List of population for each rank which we will combine
+    let selectedGameIndividualPopulations = [];
+    // Sort the ranks
+    sg = sg.sort((a, b)=>parseInt(a.position.S) > parseInt(b.position.S) ? 1 : -1);
+    // Get some feedback on this
+    // Calculates the total population percent, which usually is between 99 and 100
+    // or also my be slightly above 100, but is important for accuracy
+    sg.forEach((rank)=>{
+        selectedGameIndividualPopulations.push(rank.population.S);
+    });
+    selectedGamePopulation = selectedGameIndividualPopulations.reduce(combineFloats);
+    // Calculate the population percent below the rank selected, hence (rank - 1)
+    let selectedGameCumulative = 0;
+    // Like python for i in range():
+    for (const i of Array(parseInt(sessionStorage.getItem("selectedRank") - 1)).keys())selectedGameCumulative = combineFloats(selectedGameCumulative, sg[i].population.S);
+    // The most important calculation for the percentile that the rank falls in
+    selectedGameRankPercentile = selectedGameCumulative / selectedGamePopulation;
+    // Time to compute the equivalent ranks
+    let equivalentRanks = {};
+    for (const [key, value] of Object.entries(data)){
+        let i1 = 0;
+        let cumulative = 0;
+        let percentile = 0;
+        let totalPopulation = 0;
+        let ranks = value["Items"];
+        let rankPopulations = [];
+        // Sort the ranks
+        ranks = ranks.sort((a, b)=>parseInt(a.position.S) > parseInt(b.position.S) ? 1 : -1);
+        // Populating rankPopulations
+        for (const i2 of Array(parseInt(ranks.length - 1)).keys())rankPopulations.push(ranks[i2].population.S);
+        // Calculating total population to use in percentile calculations
+        totalPopulation = rankPopulations.reduce(combineFloats);
+        while(cumulative / totalPopulation < selectedGameRankPercentile){
+            cumulative = combineFloats(ranks[i1].population.S, cumulative);
+            i1++;
+        }
+        // Add completed calculations to results object
+        equivalentRanks[key] = ranks[i1].position.S;
+    }
+    return equivalentRanks;
+}
+function combineFloats(a, b) {
+    return parseFloat(a) + parseFloat(b);
+}
+function combineInts(a, b) {
+    return parseInt(a) + parseInt(b);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lzTRh":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "resultsHTML", ()=>resultsHTML);
+var _aws = require("./aws");
+var _awsDefault = parcelHelpers.interopDefault(_aws);
+function resultsHTML(results, data) {
+    let iconsHTML = [];
+    for (const [key, value] of Object.entries(results)){
+        rankName = data[key]["Items"][value].displayName.S;
+        rankImg = data[key]["Items"][value].img.S;
+        iconsHTML.push(buildResultHTML(rankName, rankImg));
+    }
+    selectedRankImg = data[sessionStorage.getItem("selectedGame")]["Items"][sessionStorage.getItem("selectedRank")].img.S;
+    selectedRankName = data[sessionStorage.getItem("selectedGame")]["Items"][sessionStorage.getItem("selectedRank")].displayName.S;
+    resultsHTML = `<div id="selectedRankIconPH" style='background-image:url(/rank_icons/${selectedRankImg})'></div><div id="selectedRankTextPH"><h3>${selectedRankName}</h3></div><div id="eqRanksPHParent">${iconsHTML.join("")}</div>`;
+    return resultsHTML;
+}
+function buildResultHTML(rankName1, rankImg1) {
+    return `<div class='eqRanksIconPH' style='background-image:url(/rank_icons/${rankImg1})'>
+          <h3 class='eqRankName'>${rankName1}</h3>
+      </div>`;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./aws":"bxWuF"}]},["dAPrZ","5AKj5"], "5AKj5", "parcelRequirecb96")
 
 //# sourceMappingURL=index.a8f04b30.js.map

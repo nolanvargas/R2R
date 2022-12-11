@@ -1,0 +1,83 @@
+@media only screen and (min-width: 320px) {
+  #gameSelect,
+  #rankSelect {
+    gap: 2vw;
+  }
+
+  .title {
+    width: 100vw;
+    margin-left: 2vw;
+  }
+
+  #gameSelect {
+    margin-bottom: 50px;
+    margin-left: 3.5vw;
+
+    grid-template-columns: repeat(3, 30vw);
+    grid-template-rows: repeat(3, 30vw);
+  }
+
+  #rankSelect {
+    grid-template-columns: repeat(4, 22.5vw);
+    grid-auto-rows: 22.5vw;
+    gap: 2vw;
+    margin-left: 3vw;
+  }
+
+  #selectedRankIconPH {
+    width: 35vw;
+    height: 35vw;
+    margin: auto;
+    border: 5px solid black;
+    border-radius: 20px;
+  }
+
+  #selectedRankTextPH {
+    width: 55vw;
+    height: 20px;
+    margin: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  #eqRanksPHParent {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 30vw);
+    grid-template-rows: repeat(3, 30vw);
+    margin-left: 2.5vw;
+    gap: 2vw;
+  }
+
+  #eqRanksIconPH,
+  #selectedRankIconPH,
+  .eqRanksIconPH {
+    border: 2px solid black;
+    border-radius: 10px;
+    filter: brightness(60%);
+    background-color: #404040;
+  }
+
+  #selectedRankIconPH,
+  .eqRanksIconPH {
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
+  .eqRankName,
+  #selectedRankTextPH > h3 {
+    font-family: var(--title);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 100;
+    line-height: 14px;
+    position: relative;
+  }
+  .eqRankName {
+    top: 70%;
+    font-size: 0.75rem;
+  }
+}

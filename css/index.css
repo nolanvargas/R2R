@@ -1,41 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
 
-@keyframes color-change {
-  0% {
-    color: rgb(165, 0, 0);
-  }
-  10% {
-    color: orangered;
-  }
-  20% {
-    color: orange;
-  }
-  30% {
-    color: green;
-  }
-  40% {
-    color: teal;
-  }
-  50% {
-    color: rgb(0, 73, 184);
-  }
-  60% {
-    color: indigo;
-  }
-  70% {
-    color: purple;
-  }
-  80% {
-    color: #3d0066;
-  }
-  90% {
-    color: black;
-  }
-  100% {
-    color: rgb(165, 1, 1);
-  }
-}
-
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
 }
@@ -51,7 +15,7 @@
 
 @keyframes skeleton-loading {
   0% {
-    background-color: hsl(200, 20%, 70%);
+    background-color: hsl(200, 20%, 65%);
   }
   100% {
     background-color: hsl(200, 20%, 90%);
@@ -62,14 +26,20 @@
 }
 
 .gameTile svg {
+  width: 100%;
+  height: 100%;
+  filter: opacity(50%);
+  animation: skeleton-loading 1s linear infinite alternate;
 }
 
 body {
   background-color: #5a5a5a;
   min-width: 320px;
+  max-width: 90%;
+  margin-left: 5%;
+  margin-right: 5;
+  padding: 0;
   margin: 0;
-  padding-left: 5vw;
-  padding-right: 5vw;
 }
 
 .title {
@@ -88,16 +58,15 @@ h1 {
   width: 100%;
 }
 
-#gameSelect {
+#gameSelect,
+#rankSelect {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 28.5vw);
-  gap: 2vw;
   width: 100%;
 }
 
-.gameTile > h3 {
-  font-size: 12px;
+.gameTile > h3,
+.rankTile > h3 {
+  font-size: 10px;
   position: relative;
   bottom: 50px;
   margin: 0;
@@ -109,8 +78,13 @@ h1 {
   font-weight: 100;
   text-align: center;
 }
+.rankTile > h3 {
+  bottom: 0px;
+  top: 65%;
+}
 
-.gameTile {
+.gameTile,
+.rankTile {
   height: 100%;
   width: 100%;
   padding: 0;
@@ -143,6 +117,46 @@ h1 {
 #rankSelect {
   display: grid;
 }
+
 .rankTile {
-  display: flex;
+  background-color: rgb(64, 64, 64);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  filter: brightness(60%);
+}
+
+@media only screen and (max-width: 500px) {
+  .rankTile > h3 {
+    font-size: 0.7rem;
+  }
+}
+
+#submitButton {
+  width: 120px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 5px;
+  border: 3px solid black;
+  font-family: var(--title);
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#submitButton > h4 {
+  position: relative;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.enabled {
+  pointer-events: all;
+  opacity: 1;
+  cursor: pointer;
 }

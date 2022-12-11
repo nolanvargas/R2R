@@ -1,0 +1,21 @@
+@media only screen and (min-width: 500px) {
+  #content {
+    display: flex;
+  }
+  #gameSelect,
+  #rankSelect {
+    gap: 5px;
+  }
+  #gameSelect {
+    margin-bottom: 50px;
+    margin-left: 2.5vw;
+
+    grid-template-columns: repeat(3, 125px);
+    grid-template-rows: repeat(3, 125px);
+  }
+
+  #rankSelect {
+    grid-template-columns: repeat(4, 100px);
+    grid-auto-rows: 100px;
+  }
+}
