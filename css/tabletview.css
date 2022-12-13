@@ -1,0 +1,13 @@
+@media only screen and (min-width: 600px) {
+  #content {
+    margin: auto;
+    width: 100vw;
+  }
+  #gameSelect {
+    margin-bottom: 50px;
+    margin-left: 3.5vw;
+
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+  }
+}
