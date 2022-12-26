@@ -1,4 +1,5 @@
 @import "https://fonts.googleapis.com/css2?family=Bungee&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap";
 .skeleton {
   animation: 1s linear infinite alternate skeleton-loading;
 }
@@ -35,10 +36,9 @@
 
 body {
   min-width: 320px;
-  max-width: 90%;
+  width: 100vw;
   background-color: #5a5a5a;
   margin: 0;
-  padding: 0;
 }
 
 .title {
@@ -53,12 +53,8 @@ h1 {
   font-size: 35px;
 }
 
-#content {
-  width: 100%;
-}
-
 #gameSelect, #rankSelect {
-  width: 100%;
+  justify-content: center;
   display: grid;
 }
 
@@ -111,6 +107,14 @@ h1 {
   display: grid;
 }
 
+#selectedRankTextPH > h3 {
+  line-height: 1.1rem;
+}
+
+#selectedRankTextPH {
+  margin-bottom: 50px;
+}
+
 .rankTile {
   filter: brightness(60%);
   background-color: #404040;
@@ -132,9 +136,27 @@ h1 {
   border: 3px solid #000;
   border-radius: 5px;
   margin: 20px auto;
+  display: block;
 }
 
-#submitButton > h4 {
+#backButton {
+  width: 120px;
+  height: 50px;
+  font-family: var(--title);
+  background-color: #f0f8ff;
+  border: 3px solid #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+#backButton > h4 {
+  text-align: center;
+  margin-top: 5px;
+}
+
+#submitButton > h4, #backbutton > h4 {
   text-align: center;
   margin-top: 5px;
   position: relative;
@@ -150,6 +172,10 @@ h1 {
   pointer-events: all;
   opacity: 1;
   cursor: pointer;
+}
+
+.nav.show {
+  height: 9999px;
 }
 
 /*# sourceMappingURL=index.e9a92ad8.css.map */

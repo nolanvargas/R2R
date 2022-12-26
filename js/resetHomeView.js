@@ -1,44 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/smallview.css" />
-    <link rel="stylesheet" href="css/mediumview.css" />
-    <link rel="stylesheet" href="css/largeview.css" />
-    <link rel="stylesheet" href="css/tabletview.css" />
-    <link rel="stylesheet" href="css/desktopview.css" />
-
-    <link rel="stylesheet" href="css/index.css" />
-    <script src="js/polyfills.js"></script>
-    <script src="js/app.js" type="module"></script>
-    <title>Rank to Rank</title>
-  </head>
-  <body>
-    <div id="navBar">
-      <div class="hamburger-icon" id="icon">
-        <div class="icon-1" id="a"></div>
-        <div class="icon-2" id="b"></div>
-        <div class="icon-3" id="c"></div>
-        <div class="clear"></div>
-      </div>
-
-      <nav id="nav" class="hidden">
-        <ul>
-          <li id="compareRanks">COMPARE RANKS</li>
-          <li id="login">LOGIN</li>
-          <li id="about">ABOUT</li>
-        </ul>
-      </nav>
-
-      <div class="dark-grey" id="grey"></div>
-    </div>
-
-    <h1 class="title">Rank to Rank</h1>
-
-    <div id="content">
-      <div id="gameSelect">
+export function resetHomeView() {
+  document.querySelector("#content").innerHTML = `<div id="gameSelect">
         <div class="gameTile">
           <svg
             version="1.0"
@@ -428,7 +389,5 @@
         </div>
       </div>
       <div id="rankSelect"></div>
-      <div id="submitButton" class="disabled"><h4>Generate</h4></div>
-    </div>
-  </body>
-</html>
+      <div id="submitButton" class="disabled"><h4>Generate</h4></div>`;
+}

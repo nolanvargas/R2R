@@ -4,10 +4,25 @@
     gap: 2vw;
   }
   #rankSelect {
-    margin-left: 1.25vw;
+    margin-left: 2.25vw;
   }
   #submitButton {
     position: relative;
     left: 20px;
+  }
+  #selectedRankIconPH {
+    margin-left: 32.5vw;
+  }
+  #selectedRankTextPH {
+    margin-left: 23vw;
+  }
+  #eqRanksPHParent {
+    margin-left: 3.8vw;
+  }
+  #backButton {
+    margin-left: 34vw;
+  }
+  #loginContainer {
+    margin-left: 10vw;
   }
 }

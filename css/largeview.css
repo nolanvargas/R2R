@@ -10,4 +10,10 @@
     position: relative;
     left: 27px;
   }
+  #backButton {
+    margin-left: 36vw;
+  }
+  #loginContainer {
+    margin-left: 10vw;
+  }
 }
