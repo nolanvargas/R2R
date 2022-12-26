@@ -56,7 +56,6 @@ h1 {
 #gameSelect,
 #rankSelect {
   display: grid;
-  justify-content: center;
 }
 
 .gameTile > h3,
@@ -87,9 +86,7 @@ h1 {
   cursor: pointer;
 
   /* fancy border stuff */
-  --clr: rgb(156, 17, 255);
   --outline: 2px solid rgb(255, 255, 255);
-  color: var(--clr);
   border: var(--outline);
   outline-offset: -2px;
   transition: outline-width 150ms ease, outline-offset 150ms ease;
@@ -105,7 +102,6 @@ h1 {
 }
 
 .gameTile > img {
-  height: 100%;
   width: 100%;
 }
 
@@ -143,7 +139,7 @@ h1 {
   font-family: var(--title);
   display: block;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 
@@ -183,6 +179,8 @@ h1 {
   cursor: pointer;
 }
 
-.nav.show {
-  height: 9999px;
+#nav.show {
+  border-bottom: 9px solid rgb(55, 55, 55);
+  overflow: hidden;
+  border-width: 100px;
 }

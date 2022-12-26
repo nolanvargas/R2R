@@ -1,6 +1,8 @@
 import Db from "./aws";
 
 export function generateResultsHTML(results, data) {
+  // Scroll to the top of the page
+  window.scrollTo(0, 0);
   let iconsHTML = [];
   for (const [key, value] of Object.entries(results)) {
     rankName = data[key]["Items"][value - 1].displayName.S;

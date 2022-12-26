@@ -6,26 +6,25 @@
 
   .title {
     width: 100vw;
-    padding-left: 2vw;
     box-sizing: border-box;
     margin-top: 35px;
   }
 
   #gameSelect {
     margin-bottom: 50px;
-    padding-left: 3.5vw;
     box-sizing: border-box;
-
-    grid-template-columns: repeat(3, 30vw);
-    grid-template-rows: repeat(3, 30vw);
+    justify-content: center;
+    grid-template-columns: repeat(3, min(30vw, 120px));
+    grid-template-rows: repeat(3, min(30vw, 120px));
   }
 
   #rankSelect {
-    grid-template-columns: repeat(4, 22.5vw);
-    grid-auto-rows: 22.5vw;
+    grid-template-columns: repeat(4, min(80px, 22.5vw));
+    grid-auto-rows: min(80px, 22.5vw);
     gap: 2vw;
-    padding-left: 3vw;
     box-sizing: border-box;
+    justify-content: center;
+    margin-right: 1vw;
   }
 
   #selectedRankIconPH {

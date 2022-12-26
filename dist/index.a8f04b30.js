@@ -693,6 +693,8 @@ async function homeView() {
     let submitButton = document.querySelector("#submitButton");
     submitButton.addEventListener("click", async (e)=>{
         if (sessionStorage.getItem("isRankSelected") && sessionStorage.getItem("isRankSelected")) {
+            // Scroll to the top of the page
+            window.scrollTo(0, 0);
             // Switch to results skeleton
             switchToResults();
             // Grab every game id in the database
@@ -29547,6 +29549,8 @@ parcelHelpers.export(exports, "generateResultsHTML", ()=>generateResultsHTML);
 var _aws = require("./aws");
 var _awsDefault = parcelHelpers.interopDefault(_aws);
 function generateResultsHTML(results, data) {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
     let iconsHTML = [];
     for (const [key, value] of Object.entries(results)){
         rankName = data[key]["Items"][value - 1].displayName.S;

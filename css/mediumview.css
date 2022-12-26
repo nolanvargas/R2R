@@ -1,15 +1,4 @@
 @media only screen and (min-width: 375px) {
-  #gameSelect,
-  #rankSelect {
-    gap: 2vw;
-  }
-  #rankSelect {
-    margin-left: 2.25vw;
-  }
-  #submitButton {
-    position: relative;
-    left: 20px;
-  }
   #selectedRankIconPH {
     margin-left: 32.5vw;
   }
@@ -21,8 +10,5 @@
   }
   #backButton {
     margin-left: 34vw;
-  }
-  #loginContainer {
-    margin-left: 10vw;
   }
 }

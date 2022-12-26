@@ -196,6 +196,8 @@ async function homeView() {
       sessionStorage.getItem("isRankSelected") &&
       sessionStorage.getItem("isRankSelected")
     ) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
       // Switch to results skeleton
       switchToResults();
       // Grab every game id in the database
