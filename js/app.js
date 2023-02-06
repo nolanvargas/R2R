@@ -244,6 +244,14 @@ async function main() {
   menuButton.addEventListener("click", function () {
     toggleMenu();
   });
+
+  const navBar = document.getElementById("nav");
+
+  window.addEventListener("scroll", () => {
+    if (navBar.classList.contains("show")) {
+      toggleMenu();
+    }
+  });
   //*****************************************
 
   //***********NAV BUTTONS*******************

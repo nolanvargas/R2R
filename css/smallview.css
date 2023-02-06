@@ -48,9 +48,9 @@
     display: grid;
     grid-template-columns: repeat(3, 30vw);
     grid-template-rows: repeat(3, 30vw);
-    padding-left: 2.5vw;
     box-sizing: border-box;
     gap: 2vw;
+    justify-content: center;
   }
 
   #eqRanksIconPH,
@@ -149,6 +149,7 @@
   #backButton {
     display: block;
     margin: auto;
+    cursor: pointer;
   }
   /* HAMBURGER MENU */
 

@@ -34,6 +34,10 @@
   animation: skeleton-loading 1s linear infinite alternate;
 }
 
+html {
+  cursor: url("/static/cursors/black.gif"), auto;
+}
+
 body {
   background-color: #5a5a5a;
   min-width: 320px;

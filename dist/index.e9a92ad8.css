@@ -34,6 +34,10 @@
   animation: 1s linear infinite alternate skeleton-loading;
 }
 
+html {
+  cursor: url("black.9414e056.gif"), auto;
+}
+
 body {
   min-width: 320px;
   width: 100vw;
